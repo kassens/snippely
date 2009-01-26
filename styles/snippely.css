@@ -1,0 +1,493 @@
+/* @group Main */
+
+* {
+	margin: 0px;
+	padding: 0px;
+	cursor: default;
+}
+
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	font: 11px/1 "Lucida Grande", Arial, sans-serif;
+	background-color: #eee;
+	-webkit-user-select: none;
+}
+
+ul {
+	list-style:none;
+}
+
+.editing {
+	cursor: text;
+	-webkit-user-select: text !important;
+}
+
+::selection { background-color: #d5dde6; }
+
+/* @end */
+
+/* @group Content */
+
+#content-left {
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 200px;
+	position: absolute;
+	border-right: 1px solid #a5a5a5;
+}
+
+#content-right {
+	top: 0px;
+	left: 200px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	background: #eee url(../images/wm-black.png) no-repeat center center;
+}
+
+#content-wrap {
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: #eee;
+}
+
+#content-top {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	height: 100px;
+	position: absolute;
+	z-index: 1500;
+}
+
+#content-bottom {
+	top: 107px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	position: absolute;
+}
+
+/* @end */
+
+/* @group Groups */
+
+#groups {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 23px;
+	position: absolute;
+}
+
+#groups-wrap {
+	height: 100%;
+	overflow: hidden;
+}
+
+#groups h3 {
+	padding: 0px 12px;
+	margin: 8px 0px 6px;
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+#groups li {
+	color: #222;
+	font-size: 11px;
+	line-height: 11px;
+	padding: 4px 6px 5px 25px;
+	background: repeat-x left top;
+}
+
+#groups li.selected {
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5);
+	background-color: #425970;
+}
+
+#groups li.hovering {
+	border: solid 2px #217ffd;
+	padding: 2px 4px 3px 23px;
+	-webkit-border-radius: 5px;
+}
+
+#groups li.editing::selection {
+	color: #fff;
+}
+
+/* @end */
+
+/* @group Footer */
+
+#footer {
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 22px;
+	position: absolute;
+	border-top: 1px solid #cacaca;
+	background: #fff url(../images/footer-normal.png) repeat-x top left;
+	border-right: 1px solid #a5a5a5;
+}
+
+#footer div {
+	height: 22px;
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#footer div.button {
+	width: 28px;
+	float: left;
+}
+
+#footer div.active {
+	background-position: center bottom;
+}
+
+#button-add {
+	background-image: url(../images/button-add.png);
+}
+
+#button-action {
+	background-image: url(../images/button-remove.png);
+}
+
+#left-resizer {
+	width: 17px;
+	float: right;
+	background-image: url(../images/button-splitter.png);
+}
+
+/* @end */
+
+/* @group Snippets */
+
+#snippets {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 7px;
+	position: absolute;
+	background-color: #fff;
+}
+
+#snippets-wrap {
+	height: 100%;
+	overflow: hidden;
+}
+
+#snippets li {
+	padding: 4px 20px;
+	background-color: #fff;
+}
+
+#snippets li.odd {
+	background: #f5f5f5;
+}
+
+#snippets li.selected {
+	color: #fff;
+}
+
+#snippets li.editing::selection {
+	color: #fff;
+}
+
+#top-resizer {
+	width: 100%;
+	height: 5px;
+	left: 0px;
+	bottom: 0px;
+	position: absolute;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background:
+		url(../images/content-resizer-ball.png) center center no-repeat,
+		url(../images/content-resizer-bg.png) left center repeat-x;
+}
+
+/* @end */
+
+/* @group Snippet */
+
+#snippet-toolbar {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 18px;
+	padding: 3px 0px;
+	border-top: 1px solid #e8eaed;
+	border-bottom: 1px solid #aaa;
+	background: url(../images/grad.png) repeat-x left;
+	z-index: 1500;
+}
+
+#snippet {
+	top: 26px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	font-size: 12px;
+}
+
+#snippet-wrap {
+	height: 100%;
+	overflow: hidden;
+}
+
+#snippet-container {
+	padding: 10px;
+}
+
+#snippet-title {
+	color: #222;
+	font-size: 20px;
+	font-family: Helvetica;
+	margin-bottom: 10px;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+	outline: none;
+}
+
+#snippet-description {
+	font-size: 12px;
+	padding: 8px 4px;
+	line-height: 16px;
+	border-top: 1px dotted #bbb;
+	border-bottom: 1px dotted #bbb;
+	outline: none;
+}
+
+#snippet-title.editing,
+#snippet-title.editing::selection,
+#snippet-description.editing,
+#snippet-description.editing::selection {
+	color: #217ffd;
+}
+
+/* @end */
+
+/* @group Snips */
+
+div.snip {
+	font-size: 11px;
+	margin: 10px 0px;
+	padding: 6px 10px;
+	position: relative;
+	border: 1px solid #bbb;
+	-webkit-border-radius: 6px;
+	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	background: url(../images/grad.png) bottom left repeat-x;
+}
+
+div.snip.editing {
+	background-image: none;
+}
+
+div.snip.code {
+	background-color: #fff;
+}
+
+div.snip.code.editing {
+	border: 1px solid #4792e5;
+}
+
+div.snip.note {
+	background-color: #eee;
+}
+
+div.snip.note.editing {
+	border: 1px solid #333;
+}
+
+div.snip.sorting div.content {
+	overflow: hidden;
+	max-height: 42px;
+}
+
+div.info {
+	cursor: move;
+	font-size: 9px;
+	margin-bottom: 6px;
+	padding-bottom: 5px;
+}
+
+div.info span.select {
+	cursor: pointer;
+}
+
+div.info span.select.active {
+	color: #217ffd;
+}
+
+div.snip.code div.info {
+	color: #888;
+	border-bottom: 1px solid #eee;
+}
+
+div.snip.note div.info {
+	color: #555;
+	border-bottom: 1px solid #ddd;
+}
+
+div.info span.action {
+	float: right;
+	display: none;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.editing div.info span.action {
+	display: inline;
+}
+
+div.snip.code div.content, div.snip div.info {
+	font-family: "Andale Mono", "Monaco", Courier;
+}
+
+div.snip div.content {
+	cursor: text;
+	outline: none;
+	overflow: hidden;
+	min-height: 14px;
+	line-height: 14px;
+}
+
+div.snip.code div.content {
+	white-space: pre;
+}
+
+div.snip.note div.content {
+	white-space: pre-wrap;
+}
+
+/* @end */
+
+/* @group Toolbar */
+
+#snippet-toolbar .button {
+	color: #333;
+	width: 84px;
+	height: 11px;
+	padding: 3px 0px;
+	margin-left: 5px;
+	font-size: 9px;
+	float: left;
+	display: block;
+	text-align: center;
+	background: url(../images/pill.png) no-repeat bottom left;
+}
+
+#snippet-toolbar .button.active {
+	background-position: top left;
+}
+
+/* @end */
+
+/* @group ART Scrollbar */
+
+.art-scrollbar {
+	top: 0px;
+	right: 0px;
+	width: 15px;
+	height: 100%;
+	position: absolute;
+}
+
+.art-scrollbar-track {
+	top: 0px;
+	right: 0px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background:
+		url(../images/track-top.png) top left no-repeat,
+		url(../images/track-bottom.png) bottom left no-repeat,
+		url(../images/track-center.png) top left repeat-y;
+}
+
+.art-scrollbar-thumb {
+	width: 100%;
+	position: absolute;
+}
+
+.art-scrollbar-paint-top {
+	width: 15px;
+	height: 15px;
+	background: url(../images/thumb-top.png) bottom left no-repeat;
+}
+
+.art-scrollbar-paint-center {
+	width: 15px;
+	background: url(../images/thumb-center.png) top left repeat-y;
+}
+
+.art-scrollbar-paint-bottom {
+	width: 15px;
+	height: 15px;
+	background: url(../images/thumb-bottom.png) top left no-repeat;
+}
+
+/* @end */
+
+/* @group Highlight */
+
+.comment { color: #aaa; }
+.string, .value { color: #418241; }
+.special, .variable { color: #069; }
+.keyword, .function { color: #808018; }
+.boolean, .integer, .symbol { color: #c43434; }
+.preprocessor { color: gray; }
+
+div.editing .content span { color: #333; }
+
+/* @end */
+
+/* @group Focus / Blur Rules */
+
+#blur  #content-left { background-color: #e8e8e8; }
+#focus #content-left { background-color: #d5dde6; }
+
+#blur  #groups h3 { color: #606060; }
+#focus #groups h3 { color: #58697a; }
+
+#blur  #groups li.selected { background-image: url(../images/selected-blur.png); }
+#focus #groups li.selected { background-image: url(../images/selected-focus.png); }
+
+#blur  #snippets li.selected { background-color: #828282; }
+#focus #snippets li.selected { background-color: #637282; }
+
+#blur  #snippet-toolbar { background-color: #e5e5e5; }
+#focus #snippet-toolbar { background-color: #D5DDE6; }
+
+#blur .art-scrollbar-paint-top    { background-image: url(../images/thumb-top-blur.png); }
+#blur .art-scrollbar-paint-center { background-image: url(../images/thumb-center-blur.png); }
+#blur .art-scrollbar-paint-bottom { background-image: url(../images/thumb-bottom-blur.png); }
+
+div.clone {
+	color:#fff;
+	z-index:10000;
+	opacity:0.8;
+	visibility:hidden;
+	padding:4px 20px;
+	background-color:#637282;
+	position:absolute;
+}
+
+/* @end */
