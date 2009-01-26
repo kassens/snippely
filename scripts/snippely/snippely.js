@@ -279,9 +279,9 @@ var Snippely = {
 	},
 	
 	toggleMenus: function(type, state){
-		this.Menus.actionMenu.items['Remove ' + type + '...'].enabled = state;
-		this.Menus.actionMenu.items['Rename ' + type + '...'].enabled = state;
-		if (type == 'Group') this.Menus.addMenu.items['Add Snippet...'].enabled = state;
+		this.Menus.actionMenu.items['Remove ' + type + '...'].setEnabled(state);
+		this.Menus.actionMenu.items['Rename ' + type + '...'].setEnabled(state);
+		if (type == 'Group') this.Menus.addMenu.items['Add Snippet...'].setEnabled(state);
 	},
 	
 	redraw: function(){

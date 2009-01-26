@@ -74,8 +74,6 @@ ART.Menu = new Class({
 
 ART.Menu.Item = new Class({
 	
-	Exposes: ['checked', 'enabled', 'shortcut'],
-	
 	Implements: [Events, Options],
 	
 	options: {
@@ -99,9 +97,9 @@ ART.Menu.Item = new Class({
 				this.fireEvent('onSelect', this);
 			}.bind(this));
 			
-			this.checked = this.options.checked;
-			this.enabled = this.options.enabled;
-			this.shortcut = this.options.shortcut;
+			if (this.options.checked) this.setChecked(this.options.checked);
+			if (this.options.enabled) this.setEnabled(this.options.enabled);
+			if (this.options.shortcut) this.setShortcut(this.options.shortcut);
 		}
 	},
 	
@@ -116,16 +114,23 @@ ART.Menu.Item = new Class({
 	
 	// Exposed class properties
 	
-	checked: function(value){
-		return (value !== undefined) ? this.item.checked = value : this.item.checked;
+	setChecked: function(value){
+		this.item.checked = value;
 	},
 	
-	enabled: function(value){
-		return (value !== undefined) ? this.item.enabled = value : this.item.enabled;
+	getChecked: function(){
+		this.item.checked;
 	},
 	
-	shortcut: function(shortcut){
-		if (shortcut === undefined) return this._shortcut;
+	setEnabled: function(value){
+		this.item.enabled = value;
+	},
+	
+	getEnabled: function(){
+		return this.item.enabled;
+	},
+	
+	setShortcut: function(shortcut){
 		var keys = shortcut.split('+');
 		this.item.keyEquivalent = keys.pop();
 		var modifiers = [];
@@ -133,7 +138,11 @@ ART.Menu.Item = new Class({
 			modifiers.push(AIR.Keyboard[key.toUpperCase()]);
 		});
 		this.item.keyEquivalentModifiers = modifiers;
-		return this._shortcut = shortcut;
+		this._shortcut = shortcut;
+	},
+	
+	getShortcut: function(shortcut){
+		return this._shortcut;
 	}
 	
 });
