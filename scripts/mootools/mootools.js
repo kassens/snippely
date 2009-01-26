@@ -18,7 +18,7 @@ Inspiration:
 
 var MooTools = {
 	'version': '1.2.1',
-	'build': 'dc0f73f90f80dd7ee54974e642e9d1853c20b00d'
+	'build': '43dd3f0d42701ec19b3fcbf903f9b444220d7956'
 };
 
 var Native = function(options){
@@ -100,7 +100,7 @@ Native.typize = function(object, family){
 	};
 	for (var g in generics){
 		for (var i = generics[g].length; i--;) Native.genericize(window[g], generics[g][i], true);
-	};
+	}
 })();
 
 var Hash = new Native({
@@ -1391,7 +1391,9 @@ var attributes = {
 var bools = ['compact', 'nowrap', 'ismap', 'declare', 'noshade', 'checked', 'disabled', 'readonly', 'multiple', 'selected', 'noresize', 'defer'];
 var camels = ['value', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
 
-Hash.extend(attributes, bools.associate(bools));
+bools = bools.associate(bools);
+
+Hash.extend(attributes, bools);
 Hash.extend(attributes, camels.associate(camels.map(String.toLowerCase)));
 
 var inserters = {

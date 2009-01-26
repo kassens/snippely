@@ -104,6 +104,9 @@ var Stream = new Class({
 var Filesystem = {
 
 	protocols: {
+		/* Natives:
+		app: File.applicationDirectory,
+		app-storage: air.File.applicationStorageDirectory, */
 		desktop: air.File.desktopDirectory,
 		documents: air.File.documentsDirectory,
 		user: air.File.userDirectory
@@ -330,7 +333,7 @@ var Database = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		file: 'database.db'
+		file: 'app:/database.db'
 	},
 
 	initialize: function(options){
@@ -340,8 +343,7 @@ var Database = new Class({
 		this.connection.addEventListener('open', this.onOpen.bind(this));
 		this.connection.addEventListener('error', this.onError.bind(this));
 
-		var file = air.File.applicationDirectory.resolvePath(this.options.file);
-		this.connection.openAsync(file);
+		this.connection.openAsync(Filesystem.resolve(this.options.file));
 	},
 
 	parseCondition: function(condition){
@@ -429,7 +431,7 @@ Database.Query = new Class({
 
 	options: {
 		link: 'chain',
-		limit: false
+		limit: null
 	},
 
 	initialize: function(database, query, options){
@@ -438,6 +440,7 @@ Database.Query = new Class({
 		statement.addEventListener('error', this.onError.bind(this));
 		statement.addEventListener('result', this.onResult.bind(this));
 		statement.sqlConnection = database.connection;
+		if (this.options.orderBy) query += ' ORDER BY ' + $splat(this.options.orderBy).join(', ');
 		if (this.options.limit) query += ' LIMIT ' + $splat(this.options.limit).join(', ');
 		statement.text = query;
 		this.statement = statement;
@@ -471,7 +474,7 @@ Database.Query = new Class({
 	},
 
 	onResult: function(event){
-		this.fireEvent('result', this.statement.getResult().data);
+		this.fireEvent('result', this.statement.getResult());
 		this.callChain();
 	},
 
