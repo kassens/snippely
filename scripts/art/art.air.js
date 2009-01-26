@@ -6,19 +6,6 @@ var ART = {}, AIR = air;
 
 var Application = AIR.NativeApplication.nativeApplication;
 
-// Expose Class mutator, transforms a method in a property.
-
-Class.Mutators.Exposes = function(instance, properties){
-	
-	$splat(properties).each(function(name){
-		var accessor = instance[name];
-		delete instance[name];
-		instance.__defineGetter__(name, accessor);
-		instance.__defineSetter__(name, accessor);
-	});
-	
-};
-
 // ART Menu for AIR
 
 ART.Menu = new Class({
