@@ -16,7 +16,7 @@ Snippely.Snippet = {
 			if (data) this.build(data);
 		}.bind(this);
 		
-		Snippely.database.query(this.Queries.select, { id: id }, {
+		Snippely.database.select('snippets', {id: id}, {
 			onResult: callback
 		});
 	},
@@ -31,16 +31,13 @@ Snippely.Snippet = {
 	},
 	
 	updateTitle: function(element){
-		Snippely.database.update('snippets', {id: id}, {title: element.get('text')}, {
+		Snippely.database.update('snippets', {id: this.id}, {title: element.get('text')}, {
 			onResult: Snippely.Snippets.load.bind(Snippely.Snippets)
 		});
 	},
 	
 	updateDescription: function(element){
-		Snippely.database.execute(this.Queries.updateDescription, {
-			id: this.id,
-			description: element.get('text')
-		});
+		Snippely.database.update('snippets', {id: this.id}, {description: element.get('text')});
 	},
 	
 	show: function(){
@@ -50,17 +47,5 @@ Snippely.Snippet = {
 	hide: function(){
 		this.container.setStyle('display', 'none');
 	}
-	
-};
-
-//Snippet related queries
-
-Snippely.Snippet.Queries = {
-	
-	select: "SELECT * FROM snippets WHERE id = :id",
-	
-	updateTitle: "UPDATE snippets SET title = :title WHERE id = :id",
-	
-	updateDescription: "UPDATE snippets SET description = :description WHERE id = :id"
 	
 };

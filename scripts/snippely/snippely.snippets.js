@@ -18,8 +18,8 @@ Snippely.Snippets = {
 			var snippets = result.data || [];
 			this.build(snippets, focus);
 		}.bind(this);
-		
-		Snippely.database.query(this.Queries.select, { group_id: Snippely.Groups.id }, {
+		Snippely.database.select('snippets', {group_id: Snippely.Groups.id}, {
+			orderBy: 'UPPER(title) ASC',
 			onResult: callback
 		});
 	},
@@ -73,7 +73,9 @@ Snippely.Snippets = {
 						droppable.removeClass('hovering');
 						this.redraw();
 					}.bind(this);
-					Snippely.database.execute(this.Queries.updateGroup, callback, { id: id, group_id: group_id });
+					Snippely.database.update('snippets', {id: id}, {group_id: group_id}, {
+						onResult: callback
+					});
 				}.bind(this),
 				onCancel: cancel,
 				onComplete: cancel
@@ -153,11 +155,12 @@ Snippely.Snippets = {
 			if (result.data) $each(result.data, function(snippet){
 				Snippely.Snips.removeBySnippet(snippet.id);
 			}, this);
-			
-			Snippely.database.execute(this.Queries.removeByGroup, { group_id: group_id });
+			Snippely.database.DELETE('snippets', {group_id: group_id});
 		}.bind(this);
-		
-		Snippely.database.execute(this.Queries.select, callback, { group_id: group_id });
+		Snippely.database.select('snippets', {group_id: group_id}, {
+			orderBy: 'UPPER(title) ASC',
+			onResult: callback
+		});
 	},
 	
 	show: function(){
@@ -195,19 +198,5 @@ Snippely.Snippets = {
 	showMenu: function(event){
 		this[(event.target.get('tag') == 'li') ? 'actionMenu' : 'addMenu'].display(event.client);
 	}
-	
-};
-
-//Snippets list related queries
-
-Snippely.Snippets.Queries = {
-	
-	select: "SELECT id, title FROM snippets WHERE group_id = :group_id ORDER BY UPPER(title) ASC",
-	
-	remove: "DELETE FROM snippets WHERE id = :id",
-	
-	updateGroup: 'UPDATE snippets SET group_id = :group_id WHERE id = :id',
-	
-	removeByGroup: "DELETE FROM snippets WHERE group_id = :group_id"
 	
 };
