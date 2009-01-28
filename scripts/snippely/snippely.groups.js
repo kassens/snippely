@@ -14,12 +14,13 @@ Snippely.Groups = {
 	
 	load: function(insert){
 		var focus = insert && insert.lastInsertRowID;
-		var callback = function(result){
-			var groups = result.data || [];
-			this.build(groups, focus);
-		}.bind(this);
-		
-		Snippely.database.execute(this.Queries.select, callback);
+		Snippely.database.select('groups', null, {
+			orderBy: 'UPPER(name) ASC',
+			onResult: function(result){
+				var groups = result.data || [];
+				this.build(groups, focus);
+			}.bind(this)
+		});
 	},
 	
 	build: function(groups, focus){
@@ -46,13 +47,14 @@ Snippely.Groups = {
 	},
 	
 	add: function(){
-		Snippely.database.execute(this.Queries.insert, this.load.bind(this));
+		Snippely.database.insert('groups', {name: 'New Group'}, {
+			onResult: this.load.bind(this)
+		});
 	},
 	
 	update: function(element){
-		Snippely.database.execute(this.Queries.update, this.load.bind(this), {
-			id: element.retrieve('group:id'),
-			name: element.get('text')
+		Snippely.database.update('groups', {id: element.retrieve('group:id')}, {name: element.get('text')}, {
+			onResult: this.load.bind(this)
 		});
 	},
 	
@@ -68,6 +70,13 @@ Snippely.Groups = {
 	
 	deselect: function(){
 		if (!this.selected) return;
+		// start debug code
+		if (this.selected.retrieve('editable')) air.trace('we are happy');
+		else {
+			air.trace('we are not happy, would have been a nullpointer');
+			return;
+		}
+		// end debug code
 		if (this.selected.retrieve('editable').editing()) this.selected.blur();
 		else {
 			this.elements.removeClass('selected');
@@ -91,7 +100,7 @@ Snippely.Groups = {
 	},
 	
 	removeById: function(id){
-		Snippely.database.execute(this.Queries.remove, { id: id });
+		Snippely.database.DELETE('groups', {id: id});
 		Snippely.Snippets.removeByGroup(id);
 	},
 	
@@ -120,19 +129,5 @@ Snippely.Groups = {
 	showMenu: function(event){
 		this[(event.target.get('tag') == 'li') ? 'actionMenu' : 'addMenu'].display(event.client);
 	}
-	
-};
-
-//Group related queries
-
-Snippely.Groups.Queries = {
-	
-	select: "SELECT * FROM groups ORDER BY UPPER(name) ASC",
-	
-	insert: "INSERT INTO groups (name) VALUES ('New Group')",
-	
-	remove: "DELETE FROM groups WHERE id = :id",
-	
-	update: "UPDATE groups SET name = :name WHERE id = :id"
 	
 };

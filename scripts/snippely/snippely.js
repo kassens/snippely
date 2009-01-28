@@ -23,15 +23,18 @@ var Snippely = {
 		this.initializeLayout();
 		this.initializeButtons();
 		this.initializeKeyboard();
-		
-		this.database = new Snippely.Database({
-			onOpen: function(database){
+		this.database = new Database({
+			file: 'app-storage:/application.db',
+			onConnect: function(database){
 				this.Groups.initialize();
 				this.Snips.initialize();
 				this.Snippet.initialize();
 				this.Snippets.initialize();
 			}.bind(this)
 		});
+		this.database.execute = function(query){
+			air.trace('dead query: ' + query);
+		};
 		
 		if (AIR.NativeApplication.supportsDockIcon){
 			Application.addEventListener('exiting', function(){
@@ -323,12 +326,12 @@ Snippely.Editable = new Class({
 	Extends: Editable,
 	
 	focus: function(){
-		arguments.callee.parent();
+		this.parent();
 		Snippely.disableKeyboard();
 	},
 	
 	blur: function(){
-		arguments.callee.parent();
+		this.parent();
 		Snippely.enableKeyboard();
 	}
 	

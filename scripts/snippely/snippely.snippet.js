@@ -13,11 +13,12 @@ Snippely.Snippet = {
 	load: function(id){
 		var callback = function(result){
 			var data = result.data && result.data[0];
-			if (!data) return;
-			this.build(data);
+			if (data) this.build(data);
 		}.bind(this);
 		
-		Snippely.database.execute(this.Queries.select, callback, { id: id });
+		Snippely.database.query(this.Queries.select, { id: id }, {
+			onResult: callback
+		});
 	},
 	
 	build: function(snippet){
@@ -30,9 +31,8 @@ Snippely.Snippet = {
 	},
 	
 	updateTitle: function(element){
-		Snippely.database.execute(this.Queries.updateTitle, Snippely.Snippets.load.bind(Snippely.Snippets), {
-			id: this.id,
-			title: element.get('text')
+		Snippely.database.update('snippets', {id: id}, {title: element.get('text')}, {
+			onResult: Snippely.Snippets.load.bind(Snippely.Snippets)
 		});
 	},
 	

@@ -442,6 +442,7 @@ Database.Query = new Class({
 		statement.sqlConnection = database.connection;
 		if (this.options.orderBy) query += ' ORDER BY ' + $splat(this.options.orderBy).join(', ');
 		if (this.options.limit) query += ' LIMIT ' + $splat(this.options.limit).join(', ');
+		air.trace(' QUERY: ' + query);
 		statement.text = query;
 		this.statement = statement;
 	},

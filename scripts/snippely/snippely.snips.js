@@ -11,7 +11,10 @@ Snippely.Snips = {
 			this.build(snips);
 		}.bind(this);
 		
-		Snippely.database.execute(this.Queries.select, callback, { snippet_id: id });
+		Snippely.database.select('snips', {snippet_id: id}, {
+			orderBy: 'position ASC',
+			onResult: callback
+		});
 	},
 	
 	build: function(snips){
@@ -109,11 +112,13 @@ Snippely.Snips = {
 			wrapper.retrieve('content').fireEvent('mousedown').focus();
 		}.bind(this);
 		
-		Snippely.database.execute(this.Queries.insert, callback, {
+		Snippely.database.insert('snips', {
 			type: type,
 			content: content,
 			position: this.elements.length,
 			snippet_id: snippet.retrieve('snippet:id')
+		}, {
+			onResult: callback
 		});
 	},
 	
@@ -124,11 +129,11 @@ Snippely.Snips = {
 	},
 	
 	removeById: function(id){
-		Snippely.database.execute(this.Queries.remove, { id: id });
+		Snippely.database.DELETE('snips', {id: id});
 	},
 	
 	removeBySnippet: function(snippet_id){
-		Snippely.database.execute(this.Queries.removeBySnippet, { snippet_id: snippet_id });
+		Snippely.database.DELETE('snips', {snippet_id: snippet_id});
 	},
 	
 	updateType: function(type){
@@ -140,43 +145,23 @@ Snippely.Snips = {
 			wrapper.retrieve('content').paint(type);
 		};
 		
-		Snippely.database.execute(this.Queries.updateType, callback, {
-			id: wrapper.retrieve('snip:id'),
-			type: type
+		Snippely.database.update('snips', {id: wrapper.retrieve('snip:id')}, {type: type}, {
+			onResult: callback
 		});
 	},
 	
 	updateContent: function(wrapper){
-		Snippely.database.execute(this.Queries.updateContent, {
-			id: wrapper.retrieve('snip:id'),
+		Snippely.database.update('snips', {
+			id: wrapper.retrieve('snip:id')
+		}, {
 			content: wrapper.retrieve('content').get('text')
 		});
 	},
 	
 	updatePositions: function(order){
 		order.each(function(id, position){
-			Snippely.database.execute(this.Queries.updatePosition, { id: id, position: position });
+			Snippely.database.update('snips', {id: id}, {position: position});
 		}, this);
 	}
-	
-};
-
-//Snip related queries
-
-Snippely.Snips.Queries = {
-	
-	select: "SELECT * FROM snips WHERE snippet_id = :snippet_id ORDER BY position ASC",
-	
-	insert: "INSERT INTO snips (snippet_id, position, type, content) VALUES (:snippet_id, :position, :type, :content)",
-	
-	remove: "DELETE FROM snips WHERE id = :id",
-	
-	updateType: "UPDATE snips SET type = :type WHERE id = :id",
-	
-	updateContent: "UPDATE snips SET content = :content WHERE id = :id",
-	
-	updatePosition: "UPDATE snips SET position = :position WHERE id = :id",
-	
-	removeBySnippet: "DELETE FROM snips WHERE snippet_id = :snippet_id"
 	
 };
