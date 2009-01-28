@@ -50,6 +50,7 @@ Snippely.Snips = {
 		var wrapper = new Element('div', {'class': (snip.type == 'Note' ? 'note' : 'code') + ' snip'});
 		var info = new Element('div', {'class': 'info'}).inject(wrapper);
 		var remove = new Element('span', {'class': 'action', 'text': 'remove'}).inject(info);
+		var upload = new Element('span', {'class': 'action', 'text': 'upload'}).inject(info);
 		//var paste = new Element('span', {'class': 'action', 'text': 'paste'}).inject(info);
 		//var copy = new Element('span', {'class': 'action', 'text': 'copy'}).inject(info);
 		var select = new Element('span', {'class': 'select', 'text': snip.type}).inject(info);
@@ -69,6 +70,7 @@ Snippely.Snips = {
 		});
 		
 		remove.addEvent('mousedown', this.remove.bind(this, wrapper));
+		upload.addEvent('mousedown', this.upload.bind(this, wrapper));
 		
 		/*
 		paste.addEvent('mousedown', function(event){
@@ -92,6 +94,7 @@ Snippely.Snips = {
 		
 		wrapper.store('select', select);
 		wrapper.store('content', content);
+		wrapper.store('button:upload', upload);
 		wrapper.store('snip:id', snip.id);
 		wrapper.store('snip:type', snip.type);
 		
@@ -126,6 +129,29 @@ Snippely.Snips = {
 		this.removeById(element.retrieve('snip:id'));
 		this.sortables.removeItems(element).destroy();
 		this.sortables.fireEvent('onComplete');
+	},
+	
+	upload: function(element){
+		var status = new Element('span', {'class': 'action', 'text': 'uploading'});
+		status.replaces(element.retrieve('button:upload'));
+		var pasteUpload = new Request({
+			url: 'http://paste.mootools.net/',
+			onSuccess: function(response){
+				var url = "http://paste.mootools.net/" + response.match(/"\/\?dl=([a-f0-9]+)"/)[1];
+				status.set('text', 'Copy URL');
+				status.addEvent('click', function(){
+					air.Clipboard.generalClipboard.clear();
+					air.Clipboard.generalClipboard.setData(air.ClipboardFormats.TEXT_FORMAT, url);
+				});
+			}
+		});
+		pasteUpload.post({
+			format: element.retrieve('snip:type').toLowerCase(),
+			code2: element.retrieve('content').get('text'),
+			poster: 'Snippely',
+			expiry: 'd',
+			paste: 'Send'
+		});
 	},
 	
 	removeById: function(id){
