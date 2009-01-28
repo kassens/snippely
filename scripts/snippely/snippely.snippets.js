@@ -3,7 +3,7 @@ Snippely.Snippets = {
 	initialize: function(){
 		this.list = $('snippets-list');
 		this.container = $('content-wrap');
-		this.id = ART.retrieve('snippet:active') || 0;
+		this.id = Secure.read('snippet:active') || 0;
 		this.buildMenus();
 		
 		$('snippets').addEvents({

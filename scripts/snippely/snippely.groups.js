@@ -2,7 +2,7 @@ Snippely.Groups = {
 
 	initialize: function(){
 		this.list = $('groups-list');
-		this.id = ART.retrieve('groups:active') || 0;
+		this.id = Secure.read('groups:active') || 0;
 		this.buildMenus();
 		this.load();
 		

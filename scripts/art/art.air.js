@@ -99,8 +99,6 @@ ART.Menu.Item = new Class({
 		return new ART.Menu.Item(this.name, $extend(this.options, {_item: this.item}));
 	},
 	
-	// Exposed class properties
-	
 	setChecked: function(value){
 		this.item.checked = value;
 	},
@@ -133,31 +131,6 @@ ART.Menu.Item = new Class({
 	}
 	
 });
-
-// storage wrappers
-
-ART.Storage = {
-	
-	data: {},
-	
-	store: function(key, value){
-		ART.Storage.data[key] = value;
-		var bytes = new AIR.ByteArray();
-		bytes.writeUTFBytes(JSON.encode(ART.Storage.data));
-		AIR.EncryptedLocalStore.setItem('application:storage', bytes);
-		return ART.Storage;
-	},
-	
-	retrieve: function(key){
-		var stored = AIR.EncryptedLocalStore.getItem('application:storage');
-		var data = (stored && stored.length) ? JSON.decode(stored.readUTFBytes(stored.length)) : null;
-		if (data) return (data[key] != undefined) ? data[key] : null;
-	}
-	
-};
-
-ART.store = ART.Storage.store;
-ART.retrieve = ART.Storage.retrieve;
 
 // ART Window for AIR
 

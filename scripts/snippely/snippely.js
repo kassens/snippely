@@ -182,12 +182,12 @@ var Snippely = {
 	},
 	
 	retrieveProperties: function(){
-		var top = ART.retrieve('window:y') || 100;
-		var left = ART.retrieve('window:x') || 100;
-		var width = ART.retrieve('window:width') || 640;
-		var height = ART.retrieve('window:height') || 480;
-		var groupsWidth = ART.retrieve('groups:width') || 200;
-		var snippetsHeight = ART.retrieve('snippets:height') || 100;
+		var top = Secure.read('window:y') || 100;
+		var left = Secure.read('window:x') || 100;
+		var width = Secure.read('window:width') || 640;
+		var height = Secure.read('window:height') || 480;
+		var groupsWidth = Secure.read('groups:width') || 200;
+		var snippetsHeight = Secure.read('snippets:height') || 100;
 		
 		nativeWindow.y = top;
 		nativeWindow.x = left;
@@ -269,16 +269,16 @@ var Snippely = {
 	},
 	
 	storeProperties: function(){
-		ART.store('window:y', nativeWindow.y);
-		ART.store('window:x', nativeWindow.x);
-		ART.store('window:height', nativeWindow.height);
-		ART.store('window:width', nativeWindow.width);
+		Secure.write('window:y', nativeWindow.y);
+		Secure.write('window:x', nativeWindow.x);
+		Secure.write('window:height', nativeWindow.height);
+		Secure.write('window:width', nativeWindow.width);
 		
-		ART.store('groups:width', this.contentLeft.clientWidth);
-		ART.store('groups:active', this.Groups.id);
+		Secure.write('groups:width', this.contentLeft.clientWidth);
+		Secure.write('groups:active', this.Groups.id);
 		
-		ART.store('snippets:height', this.contentTop.offsetHeight);
-		ART.store('snippet:active', this.Snippets.id);
+		Secure.write('snippets:height', this.contentTop.offsetHeight);
+		Secure.write('snippet:active', this.Snippets.id);
 	},
 	
 	toggleMenus: function(type, state){
